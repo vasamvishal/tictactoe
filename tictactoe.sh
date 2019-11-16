@@ -1,10 +1,14 @@
 #!/bin/bash -x
 
+#constant
 HUMAN=0
+
+#variables
 human_Symbol=0
 computer_Symbol=0
-declare -a matrixBoard
 count=1
+
+declare -a matrixBoard
 function resetBoard()
 {
 	for (( row=1;row<=9;row++ ))
@@ -31,9 +35,13 @@ function head_Tail()
   	toss=$((RANDOM%2))
   	if [ $toss -eq $HUMAN ]
     	then
-		echo "First Move"
+		echo "Your Move"
+                printBoard
+
  	else
-  		echo "Second Move"
+  		echo "computer Move"
+                printBoard
+
         fi
 
 }
@@ -49,7 +57,13 @@ function printBoard()
 
 }
 
+
+
+
+
 resetBoard
+
+
 printBoard
 check_For_Symbol
 head_Tail
