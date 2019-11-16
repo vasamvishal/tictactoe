@@ -24,8 +24,10 @@ function check_For_Symbol()
   	if [ $symbol -eq $HUMAN ]
     	then
 		human_Symbol="X"
+                echo $human_Symbol
  	else
   		computer_Symbol="0"
+ 		echo $computer_Symbol
         fi
 
 }
@@ -37,7 +39,11 @@ function head_Tail()
     	then
 		echo "Your Move"
                 printBoard
-
+                var=$(check_For_Symbol)
+                echo $var
+                read -p "Entered the position u want to enter:" move
+		matrixBoard["$move"]=$var
+                printBoard
  	else
   		echo "computer Move"
                 printBoard
@@ -62,8 +68,5 @@ function printBoard()
 
 
 resetBoard
-
-
-printBoard
-check_For_Symbol
 head_Tail
+
