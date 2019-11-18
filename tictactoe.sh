@@ -10,7 +10,7 @@ count=1
 countnumber=0
 times_played=0
 declare -a matrixBoard
-function resetBoard()
+function reset_Board()
 {
 	for (( row=1;row<=9;row++ ))
    	do
@@ -25,73 +25,96 @@ function check_For_Symbol()
   	if [ $symbol -eq $HUMAN ]
     	then
 		human_Symbol="X"
-                computer_Symbol="0"
+                computer_Symbol="O"
               
 
  	else
-		human_Symbol="0"
+		human_Symbol="O"
   		computer_Symbol="X"
 
         fi
 
 }
 
-function rowwinning()
+function row_Winning()
 {
 
-       local row1=1
+       local rowVariable=1
        var=$1
        for ((count=1;count<=3;count++ ))
        do       
 		local countnumber=0;      
-                row1=$row1  
-		counter=$(( $row1+2 ))
-		for ((row2=$row1;row2<=$counter;row2++ ))
+                rowVariable=$rowVariable  
+		rowEnd=$(( $rowVariable+2 ))
+		for ((rowLoop=$rowVariable;rowLoop<=$rowEnd;rowLoop++ ))
                	do 
-			if [ ${matrixBoard[$row2]} == $var ]
+			if [ ${matrixBoard[$rowLoop]} == $var ]
         		then
                 		countnumber=$(($countnumber+1))
-                	if [ $countnumber -eq 3 ]
+                        if [ $countnumber -eq 2 ]
+                        then
+				for (( i=$rowVariable; i<=$rowEnd; i++ ))
+                		do
+				if [ ${matrixBoard[$i]} ==  $human_Symbol ] || [ ${matrixBoard[$i]} ==  $computer_Symbol ]
+				then
+ 				count5=0;
+				else
+				echo "  equal" $i
+				fi
+				done
+                	elif [ $countnumber -eq 3 ]
                 	then
                                echo "Suceess"
                  		break;
                 	fi
         		fi
 		done
-		row1=$(($row2))
+		rowVariable=$(($rowLoop))
 	done
 }
 
-function columnwinning()
+function column_Winning()
 {
 
        local column=1
        var=$1
-       for ((loopcount=1;loopcount<=3;loopcount++ ))
+       for ((columncount=1;columncount<=3;columncount++ ))
        do       
-		local countnumber=0;
-		local columncountnumber=0;      
-                column1=$column
-                columncounter=$(( $column1+6 ))
-		for (( column2=$column1;column2<=$columncounter;column2=$(($column2+3)) ))
+		local countnumber=0      
+                columnStart=$column
+                columnEnd=$(( $columnStart+6 ))
+		for (( columnLoop=$columnStart;columnLoop<=$columnEnd;columnLoop=$(($columnLoop+3)) ))
                	do 
-			if [ ${matrixBoard[$column2]} == $var ]
+			if [ ${matrixBoard[$columnLoop]} == $var ]
         		then
                 		countnumber=$(($countnumber+1))
-                	if [ $countnumber -eq 3 ]
+			if [ $countnumber -eq  2 ]
+	                then 
+				local i
+                        	for (( i=$columnStart; i<=$columnEnd; i=$(($i+3)) ))
+                                do
+                                if [ ${matrixBoard[$i]} == $human_Symbol ] || [ ${matrixBoard[$i]} == $computer_Symbol ]
+                                then
+                                count5=0;
+                                else
+                                echo  $i
+                                fi
+                                done
+
+                	elif [ $countnumber -eq 3 ]
                 	then
-                               echo "Suceess"
+                               echo " column Suceess"
                  		break;
                 	fi
         		fi
 		done
-		column=$(($column1+1))
+		column=$(($columnStart+1))
 	done
 }
 
 
 
-function diagonalwinning()
+function diagonal_Winning()
 {
 
         local diagonal=1
@@ -104,10 +127,23 @@ function diagonalwinning()
 		if [ ${matrixBoard[$diagonalloop]} == $var ]
         	then
 			countnumber=$(($countnumber+1))
-                if [ $countnumber -eq 3 ]
+
+		if [ $countnumber -eq 2 ]
                 then
-                               echo " diagonal Suceess"
-                 		break;
+               		 for (( i=$diagonal; i<=$diagonalcounter; i=$(($i+4)) ))
+                                do
+                                if [ ${matrixBoard[$i]} == $human_Symbol ] || [ ${matrixBoard[$i]} == $computer_Symbol ]
+                                then
+                                count5=0;
+                                else
+                                echo  $i
+                                fi
+                                done
+
+                elif [ $countnumber -eq 3 ]
+                then
+                	echo " diagonal Suceess"
+                 	break;
                 fi
                      
         	fi
@@ -116,7 +152,7 @@ function diagonalwinning()
 }
 
 
-function antidiagonalwinning()
+function anti_Diagonal_Winning()
 {
 
         local diagonal=3
@@ -128,10 +164,22 @@ function antidiagonalwinning()
                 if [ ${matrixBoard[$diagonalloop]} == $var ]
                 then
                         countnumber=$(($countnumber+1))
-                if [ $countnumber -eq 3 ]
+                if [ $countnumber == 2 ]
                 then
-                               echo " diagonal Suceess"
-                                break;
+			 for (( i=$diagonal; i<=$diagonalcounter; i=$(($i+2)) ))
+                                do
+                                if [ ${matrixBoard[$i]} == $human_Symbol ] || [ ${matrixBoard[$i]} == $computer_Symbol ]
+                                then
+					count5=0;                               
+                                else
+                                echo  $i
+                                fi
+                                done
+
+                elif [ $countnumber -eq 3 ]
+                then
+                	echo " diagonal Suceess"
+                        break;
                 fi
 
                 fi
@@ -151,8 +199,9 @@ function head_Tail()
         fi
 
 }
-function play()
+function play_Game()
 {
+        check_For_Symbol
 	echo $human_Symbol
 	echo $computer_Symbol
         while [ true  ]
@@ -161,12 +210,11 @@ function play()
         do
 	if [ $count1 -eq 1 ]
 	then	
-               
-		printBoard
-	        read -p "Entered the position u want to enter:" move
+		print_Board
+		read -p "Entered the position u want to enter:" move
 		while [ true ]
 		do
-                if [ ${matrixBoard["$move"]} -eq "$computer_Symbol" ] || [ ${matrixBoard["$move"]} -eq "$human_Symbol" ] 
+                if [ ${matrixBoard["$move"]} == $computer_Symbol ] || [ ${matrixBoard["$move"]} == $human_Symbol ] 
                 then
                         echo "cannot enter"
                         echo "Enter Again "
@@ -178,27 +226,24 @@ function play()
 		fi
 		done
                 	matrixBoard["$move"]=$human_Symbol
-	        	printBoard
-                	rowwinning $human_Symbol
- 			columnwinning $human_Symbol
-                	diagonalwinning $human_Symbol
-			antidiagonalwinning $human_Symbol
-                        
+	        	
+                	row_Winning $human_Symbol
+ 			column_Winning $human_Symbol
+                	diagonal_Winning $human_Symbol
+			anti_Diagonal_Winning $human_Symbol
 			times_played=$(( $times_played+1 ))
 		 	if [ $times_played -ge 9 ]
 			then
 			echo "tie"
 			break;
-			fi
-			
-		
+			fi		
 		fi
 		done
 		done
 
 }
 
-function printBoard()
+function print_Board()
 { 
 
  	echo   "| "${matrixBoard[1]}" | "${matrixBoard[2]}" | "${matrixBoard[3]}" |"
@@ -209,14 +254,8 @@ function printBoard()
 
 }
 
-
-
-
-
-resetBoard
+reset_Board
 head_Tail
-
-check_For_Symbol
-play
+play_Game
 
 
