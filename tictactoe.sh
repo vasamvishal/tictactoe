@@ -52,14 +52,15 @@ function row_Winning()
         		then
                 		countnumber=$(($countnumber+1))
                         if [ $countnumber -eq 2 ]
-                        then
-				for (( i=$rowVariable; i<=$rowEnd; i++ ))
+                        then	
+				local loop
+				for (( loop=$rowVariable; loop<=$rowEnd; loop++ ))
                 		do
-				if [ ${matrixBoard[$i]} ==  $human_Symbol ] || [ ${matrixBoard[$i]} ==  $computer_Symbol ]
+				if [ ${matrixBoard[$loop]} ==  $human_Symbol ] || [ ${matrixBoard[$loop]} ==  $computer_Symbol ]
 				then
  				count5=0;
 				else
-				echo "  equal" $i
+				echo  $loop
 				fi
 				done
                 	elif [ $countnumber -eq 3 ]
@@ -90,14 +91,14 @@ function column_Winning()
                 		countnumber=$(($countnumber+1))
 			if [ $countnumber -eq  2 ]
 	                then 
-				local i
-                        	for (( i=$columnStart; i<=$columnEnd; i=$(($i+3)) ))
+				local loop
+                        	for (( loop=$columnStart; loop<=$columnEnd; loop=$(($loop+3)) ))
                                 do
-                                if [ ${matrixBoard[$i]} == $human_Symbol ] || [ ${matrixBoard[$i]} == $computer_Symbol ]
+                                if [ ${matrixBoard[$loop]} == $human_Symbol ] || [ ${matrixBoard[$loop]} == $computer_Symbol ]
                                 then
                                 count5=0;
                                 else
-                                echo  $i
+                                echo  $loop
                                 fi
                                 done
 
@@ -120,6 +121,7 @@ function diagonal_Winning()
         local diagonal=1
         local diagonalcounter=9
         local countnumber=0
+	local diagonalValue=$diagonal
 	var=$1
 	for (( diagonalloop=$diagonal;diagonalloop<=$diagonalcounter;diagonalloop=$(($diagonalloop+4)) ))
 	do 
@@ -130,13 +132,14 @@ function diagonal_Winning()
 
 		if [ $countnumber -eq 2 ]
                 then
-               		 for (( i=$diagonal; i<=$diagonalcounter; i=$(($i+4)) ))
+			 local loop
+               		 for (( loop=$diagonalValue; loop<=$diagonalcounter; loop=$(($loop+4)) ))
                                 do
-                                if [ ${matrixBoard[$i]} == $human_Symbol ] || [ ${matrixBoard[$i]} == $computer_Symbol ]
+                                if [ ${matrixBoard[$loop]} == $human_Symbol ] || [ ${matrixBoard[$loop]} == $computer_Symbol ]
                                 then
                                 count5=0;
                                 else
-                                echo  $i
+                                echo  $loop
                                 fi
                                 done
 
@@ -156,8 +159,9 @@ function anti_Diagonal_Winning()
 {
 
         local diagonal=3
-        local diagonalcounter=9
+        local diagonalcounter=7
         local countnumber=0
+	local diagonalValue=$diagonal
 	var=$1
         for (( diagonalloop=$diagonal;diagonalloop<=$diagonalcounter;diagonalloop=$(($diagonalloop+2)) ))
         do   
@@ -166,13 +170,13 @@ function anti_Diagonal_Winning()
                         countnumber=$(($countnumber+1))
                 if [ $countnumber == 2 ]
                 then
-			 for (( i=$diagonal; i<=$diagonalcounter; i=$(($i+2)) ))
+			 for (( loop=$diagonalValue; loop<=$diagonalcounter; loop=$(($loop+2)) ))
                                 do
-                                if [ ${matrixBoard[$i]} == $human_Symbol ] || [ ${matrixBoard[$i]} == $computer_Symbol ]
+                                if [ ${matrixBoard[$loop]} == $human_Symbol ] || [ ${matrixBoard[$loop]} == $computer_Symbol ]
                                 then
 					count5=0;                               
                                 else
-                                echo  $i
+                                echo  $loop
                                 fi
                                 done
 
