@@ -334,6 +334,9 @@ function play_Game()
                 	if [[ ${matrixBoard["$Counting"]} == $computer_Symbol ]] || [[ ${matrixBoard["$Counting"]} == $human_Symbol ]] 
         	        then
 				count5=0;
+			elif  [[ ${matrixBoard[5]} ==  $computer_Symbol ]] || [[ ${matrixBoard[5]} == $human_Symbol ]]
+                        then
+                                matrixBoard[5]=$computer_Symbol
 			else
 				matrixBoard["$Counting"]=$computer_Symbol
 				print_Board
@@ -345,13 +348,18 @@ function play_Game()
 			then
 				Counting=$(( $Counting+2 ))
                 	fi
-                                    
-                	
 			done
-			if [[ ${matrixBoard[5]} ==  $computer_Symbol ]] || [[ ${matrixBoard[5]} == $human_Symbol ]]
-			then
-				matrixBoard[5]=$computer_Symbol
-			fi 
+
+			for (( cornerloop=2;cornerloop<9;cornerloop=$(($cornerloop+2)) ))
+			do
+			if [[ ${matrixBoard[$cornerloop]} ==  $computer_Symbol ]] || [[ ${matrixBoard[$cornerloop]} == $human_Symbol ]]
+                        then
+				count5=0;
+			else
+                                matrixBoard["$cornerloop"]=$computer_Symbol
+				break;
+                        fi 
+ 			done
 		elif [ $count1 -eq 1 ]
 		then
 		read -p "Entered the position u want to enter:" move
