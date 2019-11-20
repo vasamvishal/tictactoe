@@ -9,6 +9,7 @@ computer_Symbol=0
 count=1
 rownew=0
 newvariable=0
+newexvariable=0
 antidiagonalvariable=0
 diagonalvariable=0
 rowposition=0
@@ -17,11 +18,14 @@ countnumber=0
 times_played=0
 variable=0
 var1=0
+var=0
+counting=0
 declare -a matrixBoard
 
 
 function print_Board()
 { 
+ 
  	echo   "| "${matrixBoard[1]}" | "${matrixBoard[2]}" | "${matrixBoard[3]}" |"
  	echo   "| "${matrixBoard[4]}" | "${matrixBoard[5]}" | "${matrixBoard[6]}" |"
  	echo   "| "${matrixBoard[7]}" | "${matrixBoard[8]}" | "${matrixBoard[9]}" |"
@@ -214,27 +218,48 @@ function head_Tail()
         fi
 
 }
+function checkwin()
+{
+		if  [[ $human_Symbol -eq  $Symbol ]] && [[ $rownewposition -gt  0 ]]
+                then                  	
+                        newexvariable=$rownewposition
+			
+                elif  [[ $human_Symbol -eq  $Symbol ]] && [[ $columnnewposition -gt  0 ]]
+                then
+          
+			newexvariable=$columnnewposition
+                elif  [[ $human_Symbol -eq  $Symbol ]] && [[ $diagonalnewvariable -gt  0 ]]
+                then
+			newexvariable=$diagonalnewvariable
+                elif [[ $human_Symbol -eq  $Symbol ]] && [[ $antidiagonalnewvariable -gt  0 ]]
+                then
+			newexvariable=$antidiagonalnewvariable
+                fi
+	echo $newvariable
+	newvariable=0
+}
  function check()
 {
 	
-		if [[ $computer_Symbol -eq  $Symbol ]] && [[ $rowposition -gt  0 ]]
+		if [[ $computer_Symbol -eq  $Symbol ]] && [[ $rowposition -gt  0 ]] 
                 then                  	
                         newvariable=$rowposition
 			
-                elif  [[ $computer_Symbol -eq  $Symbol ]] && [[ $columnposition -gt  0 ]]
+                elif  [[ $computer_Symbol -eq  $Symbol ]] && [[ $columnposition -gt  0 ]] 
                 then
           
 			newvariable=$columnposition
-                elif  [[ $computer_Symbol -eq  $Symbol ]] && [[ $diagonalvariable -gt  0 ]]
+                elif  [[ $computer_Symbol -eq  $Symbol ]] && [[ $diagonalvariable -gt  0 ]] 
                 then
 			newvariable=$diagonalvariable
-                elif [[ $computer_Symbol -eq  $Symbol ]] && [[ $antidiagonalvariable -gt  0 ]]
+                elif [[ $computer_Symbol -eq  $Symbol ]] && [[ $antidiagonalvariable -gt  0 ]] 
                 then
 			newvariable=$antidiagonalvariable
                 fi
 	echo $newvariable
 	newvariable=0
 }
+
 function move_Check()
 {
 	move=$1
@@ -258,6 +283,10 @@ function play_Game()
 	echo $computer_Symbol  
         while [ true  ]
 	do
+		rownewposition=0
+                columnnewposition=0
+                diagonalnewvariable=0
+                antidiagonalnewvariable=0
 		rowposition=0
 		columnposition=0
 		diagonalvariable=0
@@ -274,11 +303,21 @@ function play_Game()
 			echo "symbol" $Symbol		
 		fi
 		var=0
+		var1=0
 		print_Board
 		if [ $count1 -eq 2 ]
 		then
 		var=$(check)
+		var1=$(checkwin)
 		echo "varrrrrrrr" $var
+		echo "varrrrrr" $var1
+		fi
+		if [ $var1 -gt 0 ]
+		then
+		matrixBoard["$var1"]=$Symbol
+		print_Board
+		newexvariable=0
+		break;
 		fi
 		if [ $var -gt 0 ]
 		then
@@ -286,7 +325,32 @@ function play_Game()
 		print_Board
     		newvariable=0
 		break;
-		else	 
+		
+		fi
+		if [ $count1 -eq 2 ]
+		then
+			for (( Counting=1;Counting<10;Counting=$(( $Counting+2 )) ))
+			do
+                	if [[ ${matrixBoard["$Counting"]} == $computer_Symbol ]] || [[ ${matrixBoard["$Counting"]} == $human_Symbol ]] 
+        	        then
+				count5=0;
+			else
+				matrixBoard["$Counting"]=$computer_Symbol
+				print_Board
+				break;
+		
+			
+			fi
+	                if [ $Counting -eq 3 ]
+			then
+				Counting=$(( $Counting+2 ))
+                	fi
+                                    
+                	
+			done
+		
+		elif [ $count1 -eq 1 ]
+		then
 		read -p "Entered the position u want to enter:" move
 			move_Check $move
 			matrixBoard["$move"]=$Symbol
@@ -301,6 +365,7 @@ function play_Game()
 			break;
 			fi
 		fi
+		
 
 		
 	done
