@@ -348,7 +348,10 @@ function play_Game()
                                     
                 	
 			done
-		
+			if [[ ${matrixBoard[5]} ==  $computer_Symbol ]] || [[ ${matrixBoard[5]} == $human_Symbol ]]
+			then
+				matrixBoard[5]=$computer_Symbol
+			fi 
 		elif [ $count1 -eq 1 ]
 		then
 		read -p "Entered the position u want to enter:" move
