@@ -222,11 +222,9 @@ function checkwin()
 {
 		if  [[ $human_Symbol -eq  $Symbol ]] && [[ $rownewposition -gt  0 ]]
                 then                  	
-                        newexvariable=$rownewposition
-			
+                        newexvariable=$rownewposition	
                 elif  [[ $human_Symbol -eq  $Symbol ]] && [[ $columnnewposition -gt  0 ]]
-                then
-          
+                then          
 			newexvariable=$columnnewposition
                 elif  [[ $human_Symbol -eq  $Symbol ]] && [[ $diagonalnewvariable -gt  0 ]]
                 then
@@ -235,8 +233,8 @@ function checkwin()
                 then
 			newexvariable=$antidiagonalnewvariable
                 fi
-	echo $newvariable
-	newvariable=0
+	echo $newexvariable
+	newexvariable=0
 }
  function check()
 {
@@ -302,28 +300,27 @@ function play_Game()
 			Symbol=$computer_Symbol
 			echo "symbol" $Symbol		
 		fi
-		var=0
-		var1=0
-		print_Board
+			checkforposition=0
+			checkforposition1=0
+			print_Board
 		if [ $count1 -eq 2 ]
 		then
-		var=$(check)
-		var1=$(checkwin)
-		echo "varrrrrrrr" $var
-		echo "varrrrrr" $var1
+			checkforposition=$(check)
+			checkforwinposition1=$(checkwin)
+			
 		fi
-		if [ $var1 -gt 0 ]
+		if [ $checkforwinposition1 -gt 0 ]
 		then
-		matrixBoard["$var1"]=$Symbol
-		print_Board
-		newexvariable=0
+			matrixBoard["$checkforwinposition"]=$Symbol
+			print_Board
+			newexvariable=0
 		break;
 		fi
-		if [ $var -gt 0 ]
+		if [ $checkforposition -gt 0 ]
 		then
-		matrixBoard["$var"]=$Symbol
-		print_Board
-    		newvariable=0
+			matrixBoard["$var"]=$Symbol
+			print_Board
+    			newvariable=0
 		break;
 		
 		fi
@@ -362,7 +359,7 @@ function play_Game()
  			done
 		elif [ $count1 -eq 1 ]
 		then
-		read -p "Entered the position u want to enter:" move
+			read -p "Entered the position u want to enter:" move
 			move_Check $move
 			matrixBoard["$move"]=$Symbol
                 	rowposition=$(row_Winning $Symbol) 
@@ -370,10 +367,10 @@ function play_Game()
                 	diagonalvariable=$(diagonal_Winning $Symbol)
 			antidiagonalvariable=$(anti_Diagonal_Winning $Symbol)
 			times_played=$(( $times_played+1 ))
-		 	if [ $times_played -ge 9 ]
-			then
+		 if [ $times_played -ge 9 ]
+		 then
 			echo "tie"
-			break;
+		break;
 			fi
 		fi
 		
