@@ -398,6 +398,11 @@ function play_Game()
  			columnposition=$(column_Winning $Symbol)
                 	diagonalvariable=$(diagonal_Winning $Symbol)
 			antidiagonalvariable=$(anti_Diagonal_Winning $Symbol)
+			 if [ $sucess==true ]
+                        then
+                                break;
+                        fi
+
 			times_played=$(( $times_played+1 ))
 		 if [ $times_played -ge 9 ]
 		 then
