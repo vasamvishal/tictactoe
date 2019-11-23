@@ -7,15 +7,15 @@ HUMAN=0
 human_Symbol=0
 computer_Symbol=0
 count=1
-rownew=0
-newblockvariable=0
-newwinvariable=0
-antidiagonalvariable=0
-diagonalvariable=0
-rowposition=0
-columnposition=0
-countnumber=0
-times_played=0
+rowNew=0
+newBlockVariable=0
+newWinVariable=0
+antiDiagonalVariable=0
+diagonalVariable=0
+rowPosition=0
+columnPosition=0
+countNumber=0
+times_Played=0
 variable=0
 counting=0
 true=0
@@ -76,7 +76,7 @@ function row_Winning()
 				then
  				count5=0;
 				else
-				rowposition=$loop
+				rowPosition=$loop
 				fi
 				done
 	
@@ -96,7 +96,7 @@ function row_Winning()
 
 		rowVariable=$(($rowLoop))
 	done
-	echo $rowposition 
+	echo $rowPosition 
 
 
 }
@@ -123,7 +123,7 @@ function column_Winning()
                                 then
                                 count5=0;
                                 else
-                                columnposition=$loop
+                                columnPosition=$loop
                                
                                 fi
                                 done
@@ -144,30 +144,30 @@ function column_Winning()
 
 		column=$(($columnStart+1))
 	done
-	echo $columnposition
+	echo $columnPosition
 }
 function diagonal_Winning()
 {
         local diagonal=1
-        local diagonalcounter=9
+        local diagonalCounter=9
         local countnumber=0
 	local diagonalValue=$diagonal
 	var=$1
-	for (( diagonalloop=$diagonal;diagonalloop<=$diagonalcounter;diagonalloop=$(($diagonalloop+4)) ))
+	for (( diagonalLoop=$diagonal;diagonalLoop<=$diagonalCounter;diagonalLoop=$(($diagonalLoop+4)) ))
 	do 
-		if [ ${matrixBoard[$diagonalloop]} == $var ]
+		if [ ${matrixBoard[$diagonalLoop]} == $var ]
         	then
 			countnumber=$(($countnumber+1))
 		if [ $countnumber -eq 2 ]
                 then 
 			 local loop
-               		 for (( loop=$diagonalValue; loop<=$diagonalcounter; loop=$(($loop+4)) ))
+               		 for (( loop=$diagonalValue; loop<=$diagonalCounter; loop=$(($loop+4)) ))
                                 do
                                 if [ ${matrixBoard[$loop]} == $human_Symbol ] || [ ${matrixBoard[$loop]} == $computer_Symbol ]
                                 then
                                 count5=0;
                                 else
-                                diagonalvariable=$loop
+                                diagonalVariable=$loop
                                 fi
                                 done
                 elif [ $countnumber -eq 3 ]
@@ -184,29 +184,29 @@ function diagonal_Winning()
 
 		diagonal=$diagonalloop
 	done
-	echo $diagonalvariable 
+	echo $diagonalVariable 
 }
 function anti_Diagonal_Winning()
 {
         local diagonal=3
-        local diagonalcounter=7
+        local diagonalCounter=7
         local countnumber=0
 	local diagonalValue=$diagonal
 	var=$1
-        for (( diagonalloop=$diagonal;diagonalloop<=$diagonalcounter;diagonalloop=$(($diagonalloop+2)) ))
+        for (( diagonalLoop=$diagonal;diagonalLoop<=$diagonalCounter;diagonalLoop=$(($diagonalLoop+2)) ))
         do   
-                if [ ${matrixBoard[$diagonalloop]} == $var ]
+                if [ ${matrixBoard[$diagonalLoop]} == $var ]
                 then
                         countnumber=$(($countnumber+1))
                 if [ $countnumber == 2 ]
                 then  
-			for (( loop=$diagonalValue; loop<=$diagonalcounter; loop=$(($loop+2)) ))
+			for (( loop=$diagonalValue; loop<=$diagonalCounter; loop=$(($loop+2)) ))
                         do
                       		if [ ${matrixBoard[$loop]} == $human_Symbol ] || [ ${matrixBoard[$loop]} == $computer_Symbol ]
                                 then
 					count5=0;                               
                                 else
-                                antidiagonalvariable=$loop
+                                antiDiagonalVariable=$loop
                                 fi
 			
                                 done
@@ -223,9 +223,9 @@ function anti_Diagonal_Winning()
 		then
 			sucess="true";
 		fi
-                diagonal=$diagonalloop
+                diagonal=$diagonalLoop
         done
-	echo $antidiagonalvariable
+	echo $antiDiagonalVariable
 }
 
 function head_Tail()
@@ -239,44 +239,44 @@ function head_Tail()
         fi
 
 }
-function checkwin()
+function check_For_Winposition()
 {
-		if  [[ $human_Symbol -eq  $Symbol ]] && [[ $rownewposition -gt  0 ]]
+		if  [[ $human_Symbol -eq  $Symbol ]] && [[ $rowNewPosition -gt  0 ]]
                 then                  	
-                        newwinvariable=$rownewposition	
-                elif  [[ $human_Symbol -eq  $Symbol ]] && [[ $columnnewposition -gt  0 ]]
+                        newWinVariable=$rowNewPosition	
+                elif  [[ $human_Symbol -eq  $Symbol ]] && [[ $columnNewPosition -gt  0 ]]
                 then          
-			newwinvariable=$columnnewposition
-                elif  [[ $human_Symbol -eq  $Symbol ]] && [[ $diagonalnewvariable -gt  0 ]]
+			newWinvariable=$columnNewPosition
+                elif  [[ $human_Symbol -eq  $Symbol ]] && [[ $diagonalNewVariable -gt  0 ]]
                 then
-			newwinvariable=$diagonalnewvariable
-                elif [[ $human_Symbol -eq  $Symbol ]] && [[ $antidiagonalnewvariable -gt  0 ]]
+			newWinVariable=$diagonalNewVariable
+                elif [[ $human_Symbol -eq  $Symbol ]] && [[ $antiDiagonalNewVariable -gt  0 ]]
                 then
-			newwinvariable=$antidiagonalnewvariable
+			newWinVariable=$antiDiagonalNewVariable
                 fi
-	echo $newwinvariable
-	newwinvariable=0
+	echo $newWinVariable
+	newWinVariable=0
 }
- function check()
+ function check_For_Blockposition()
 {
 	
-		if [[ $computer_Symbol -eq  $Symbol ]] && [[ $rowposition -gt  0 ]] 
+		if [[ $computer_Symbol -eq  $Symbol ]] && [[ $rowPosition -gt  0 ]] 
                 then                  	
-                       newblockvariable=$rowposition
+                       newBlockVariable=$rowPosition
 			
-                elif  [[ $computer_Symbol -eq  $Symbol ]] && [[ $columnposition -gt  0 ]] 
+                elif  [[ $computer_Symbol -eq  $Symbol ]] && [[ $columnPosition -gt  0 ]] 
                 then
           
-			newblockvariable=$columnposition
-                elif  [[ $computer_Symbol -eq  $Symbol ]] && [[ $diagonalvariable -gt  0 ]] 
+			newBlockVariable=$columnPosition
+                elif  [[ $computer_Symbol -eq  $Symbol ]] && [[ $diagonalVariable -gt  0 ]] 
                 then
-			newblockvariable=$diagonalvariable
+			newBlockVariable=$diagonalVariable
                 elif [[ $computer_Symbol -eq  $Symbol ]] && [[ $antidiagonalvariable -gt  0 ]] 
                 then
-			newblockvariable=$antidiagonalvariable
+			newBlockVariable=$antiDiagonalVariable
                 fi
-	echo $newblockvariable
-	newblockvariable=0
+	echo $newBlockVariable
+	newBlockVariable=0
 }
 
 function move_Check()
@@ -302,14 +302,14 @@ function play_Game()
 	echo $computer_Symbol  
         while [ true  ]
 	do
-		rownewposition=0
-                columnnewposition=0
-                diagonalnewvariable=0
-                antidiagonalnewvariable=0
-		rowposition=0
-		columnposition=0
-		diagonalvariable=0
-		antidiagonalvariable=0
+		rowNewPosition=0
+                columnNewPosition=0
+                diagonalNewVariable=0
+                antiDiagonalVariable=0
+		rowPosition=0
+		columnPosition=0
+		diagonalVariable=0
+		antiDiagonalVariable=0
 	for(( count1=1;count1<=2;count1++ ))
         do
 		echo $count1
@@ -321,36 +321,36 @@ function play_Game()
 			Symbol=$computer_Symbol
 			echo "symbol" $Symbol		
 		fi
-			checkforposition=0
-			checkforposition1=0
+			local checkForBlockPosition=0
+			local checkForWinPosition=0
 			print_Board
 		if [ $count1 -eq 2 ]
 		then
-			checkforposition=$(check)
-			checkforwinposition1=$(checkwin)
+			checkForBlockPosition=$(check_For_Blockposition())
+			checkForWinPosition=$(check_For_Winposition())
 			
 		fi
-		if [ $checkforwinposition1 -gt 0 ]
+		if [ $checkForWinposition -gt 0 ]
 		then
 			matrixBoard["$checkforwinposition"]=$Symbol
 			print_Board
-			newexvariable=0
+			
 		break;
 		fi
-		if [ $checkforposition -gt 0 ]
+		if [ $checkForBlockPosition -gt 0 ]
 		then
 			matrixBoard["$var"]=$Symbol
 			print_Board
-    			newvariable=0
+    			
 		break;
 		
 		fi
 		if [ $count1 -eq 2 ]
 		then
-			rowposition=$(row_Winning $Symbol) 
-                        columnposition=$(column_Winning $Symbol)
-                        diagonalvariable=$(diagonal_Winning $Symbol)
-                        antidiagonalvariable=$(anti_Diagonal_Winning $Symbol)
+			rowPosition=$(row_Winning $Symbol) 
+                        columnPosition=$(column_Winning $Symbol)
+                        diagonalVariable=$(diagonal_Winning $Symbol)
+                        antiDiagonalVariable=$(anti_Diagonal_Winning $Symbol)
 			if [ $sucess==true ]
 			then
 				break;
@@ -367,13 +367,14 @@ function play_Game()
 			elif  [[ ${matrixBoard[5]} ==  $computer_Symbol ]] || [[ ${matrixBoard[5]} == $human_Symbol ]]
                         then
                                 matrixBoard[5]=$computer_Symbol
-			
-			for (( cornerloop=2;cornerloop<9;cornerloop=$(($cornerloop+2)) ))
-			do
-			elif [[ ${matrixBoard[$cornerloop]} ==  $computer_Symbol ]] || [[ ${matrixBoard[$cornerloop]} == $human_Symbol ]]
+
+			elif [[ ${matrixBoard[$cornerLoop]} ==  $computer_Symbol ]] || [[ ${matrixBoard[$cornerloop]} == $human_Symbol ]]
                         then
+				
 				count5=0;
 			else
+		  	for (( cornerloop=2;cornerLoop<9;cornerloop=$(($cornerloop+2)) ))
+                       	do
                                 matrixBoard["$cornerloop"]=$computer_Symbol
 				break;
                         fi 
@@ -394,20 +395,20 @@ function play_Game()
 			read -p "Entered the position u want to enter:" move
 			move_Check $move
 			matrixBoard["$move"]=$Symbol
-                	rowposition=$(row_Winning $Symbol) 
- 			columnposition=$(column_Winning $Symbol)
-                	diagonalvariable=$(diagonal_Winning $Symbol)
-			antidiagonalvariable=$(anti_Diagonal_Winning $Symbol)
-			 if [ $sucess==true ]
+                	rowPosition=$(row_Winning $Symbol) 
+ 			columnPosition=$(column_Winning $Symbol)
+                	diagonalVariable=$(diagonal_Winning $Symbol)
+			antiDiagonalVariable=$(anti_Diagonal_Winning $Symbol)
+			if [ $sucess==true ]
                         then
                                 break;
                         fi
 
 			times_played=$(( $times_played+1 ))
-		 if [ $times_played -ge 9 ]
-		 then
+		if [ $times_played -ge 9 ]
+		then
 			echo "tie"
-		break;
+			break;
 			fi
 		fi
 		
