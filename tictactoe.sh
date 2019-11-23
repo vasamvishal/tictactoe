@@ -18,6 +18,8 @@ countnumber=0
 times_played=0
 variable=0
 counting=0
+true=0
+sucess="false"
 declare -a matrixBoard
 
 
@@ -81,11 +83,17 @@ function row_Winning()
 			
                 	elif [ $countnumber -eq 3 ]
                 	then
+				true=1;
                  		break;
 
         		fi
 			fi
 		done
+		if [ $true == 1 ]
+                then
+                        sucess="true";
+                fi
+
 		rowVariable=$(($rowLoop))
 	done
 	echo $rowposition 
@@ -122,12 +130,18 @@ function column_Winning()
 
                 	elif [ $countnumber -eq 3 ]
                 	then
+				true=1
                                echo "true"
                  		
                 	
         		fi
 			fi
 		done
+		if [ $true == 1 ]
+                then
+                        sucess="true";
+                fi
+
 		column=$(($columnStart+1))
 	done
 	echo $columnposition
@@ -158,10 +172,16 @@ function diagonal_Winning()
                                 done
                 elif [ $countnumber -eq 3 ]
                 then
+			true=1;
                 	echo " diagonal Suceess"
                  	break;
         	fi
 		fi
+		if [ $true == 1 ]
+                then
+                        sucess="true";
+                fi
+
 		diagonal=$diagonalloop
 	done
 	echo $diagonalvariable 
@@ -193,10 +213,15 @@ function anti_Diagonal_Winning()
 
                 elif [ $countnumber -eq 3 ]
                 then
+			true=1;
                 	echo " diagonal Suceess"
                         break;
                
                 fi
+		fi
+		if [ $true == 1 ]
+		then
+			sucess="true";
 		fi
                 diagonal=$diagonalloop
         done
@@ -322,6 +347,14 @@ function play_Game()
 		fi
 		if [ $count1 -eq 2 ]
 		then
+			rowposition=$(row_Winning $Symbol) 
+                        columnposition=$(column_Winning $Symbol)
+                        diagonalvariable=$(diagonal_Winning $Symbol)
+                        antidiagonalvariable=$(anti_Diagonal_Winning $Symbol)
+			if [ $sucess==true ]
+			then
+				break;
+			fi
 			for (( Counting=1;Counting<10;Counting=$(( $Counting+2 )) ))
 			do
                 	if [[ ${matrixBoard["$Counting"]} == $computer_Symbol ]] || [[ ${matrixBoard["$Counting"]} == $human_Symbol ]] 
