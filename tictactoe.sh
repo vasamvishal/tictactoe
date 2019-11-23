@@ -8,8 +8,8 @@ human_Symbol=0
 computer_Symbol=0
 count=1
 rownew=0
-newvariable=0
-newexvariable=0
+newblockvariable=0
+newwinvariable=0
 antidiagonalvariable=0
 diagonalvariable=0
 rowposition=0
@@ -17,8 +17,6 @@ columnposition=0
 countnumber=0
 times_played=0
 variable=0
-var1=0
-var=0
 counting=0
 declare -a matrixBoard
 
@@ -109,9 +107,7 @@ function column_Winning()
         		then
                 		countnumber=$(($countnumber+1))
 			if [ $countnumber -eq  2 ]
-	                then
-				#if [ $var == $computer_Symbol ]
-                        	#then   
+	                then   
 				local loop
                         	for (( loop=$columnStart; loop<=$columnEnd; loop=$(($loop+3)) ))
                                 do
@@ -222,40 +218,40 @@ function checkwin()
 {
 		if  [[ $human_Symbol -eq  $Symbol ]] && [[ $rownewposition -gt  0 ]]
                 then                  	
-                        newexvariable=$rownewposition	
+                        newwinvariable=$rownewposition	
                 elif  [[ $human_Symbol -eq  $Symbol ]] && [[ $columnnewposition -gt  0 ]]
                 then          
-			newexvariable=$columnnewposition
+			newwinvariable=$columnnewposition
                 elif  [[ $human_Symbol -eq  $Symbol ]] && [[ $diagonalnewvariable -gt  0 ]]
                 then
-			newexvariable=$diagonalnewvariable
+			newwinvariable=$diagonalnewvariable
                 elif [[ $human_Symbol -eq  $Symbol ]] && [[ $antidiagonalnewvariable -gt  0 ]]
                 then
-			newexvariable=$antidiagonalnewvariable
+			newwinvariable=$antidiagonalnewvariable
                 fi
-	echo $newexvariable
-	newexvariable=0
+	echo $newwinvariable
+	newwinvariable=0
 }
  function check()
 {
 	
 		if [[ $computer_Symbol -eq  $Symbol ]] && [[ $rowposition -gt  0 ]] 
                 then                  	
-                        newvariable=$rowposition
+                       newblockvariable=$rowposition
 			
                 elif  [[ $computer_Symbol -eq  $Symbol ]] && [[ $columnposition -gt  0 ]] 
                 then
           
-			newvariable=$columnposition
+			newblockvariable=$columnposition
                 elif  [[ $computer_Symbol -eq  $Symbol ]] && [[ $diagonalvariable -gt  0 ]] 
                 then
-			newvariable=$diagonalvariable
+			newblockvariable=$diagonalvariable
                 elif [[ $computer_Symbol -eq  $Symbol ]] && [[ $antidiagonalvariable -gt  0 ]] 
                 then
-			newvariable=$antidiagonalvariable
+			newblockvariable=$antidiagonalvariable
                 fi
-	echo $newvariable
-	newvariable=0
+	echo $newblockvariable
+	newblockvariable=0
 }
 
 function move_Check()
@@ -331,25 +327,17 @@ function play_Game()
                 	if [[ ${matrixBoard["$Counting"]} == $computer_Symbol ]] || [[ ${matrixBoard["$Counting"]} == $human_Symbol ]] 
         	        then
 				count5=0;
-			elif  [[ ${matrixBoard[5]} ==  $computer_Symbol ]] || [[ ${matrixBoard[5]} == $human_Symbol ]]
-                        then
-                                matrixBoard[5]=$computer_Symbol
 			else
 				matrixBoard["$Counting"]=$computer_Symbol
 				print_Board
 				break;
-		
+			elif  [[ ${matrixBoard[5]} ==  $computer_Symbol ]] || [[ ${matrixBoard[5]} == $human_Symbol ]]
+                        then
+                                matrixBoard[5]=$computer_Symbol
 			
-			fi
-	                if [ $Counting -eq 3 ]
-			then
-				Counting=$(( $Counting+2 ))
-                	fi
-			done
-
 			for (( cornerloop=2;cornerloop<9;cornerloop=$(($cornerloop+2)) ))
 			do
-			if [[ ${matrixBoard[$cornerloop]} ==  $computer_Symbol ]] || [[ ${matrixBoard[$cornerloop]} == $human_Symbol ]]
+			elif [[ ${matrixBoard[$cornerloop]} ==  $computer_Symbol ]] || [[ ${matrixBoard[$cornerloop]} == $human_Symbol ]]
                         then
 				count5=0;
 			else
@@ -357,6 +345,17 @@ function play_Game()
 				break;
                         fi 
  			done
+			
+			fi
+			fi
+
+	                if [ $Counting -eq 3 ]
+			then
+				Counting=$(( $Counting+2 ))
+                	fi
+			done
+
+			
 		elif [ $count1 -eq 1 ]
 		then
 			read -p "Entered the position u want to enter:" move
