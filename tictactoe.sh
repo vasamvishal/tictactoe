@@ -375,8 +375,13 @@ function play_Game()
 			else
 		  	for (( cornerloop=2;cornerLoop<9;cornerloop=$(($cornerloop+2)) ))
                        	do
+				if [[ ${matrixBoard["$Counting"]} == $computer_Symbol ]] || [[ ${matrixBoard["$Counting"]} == $human_Symbol ]] 
+	                        then
+        	                        count5=0;
+                	        else
                                 matrixBoard["$cornerloop"]=$computer_Symbol
 				break;
+				fi
                         fi 
  			done
 			
